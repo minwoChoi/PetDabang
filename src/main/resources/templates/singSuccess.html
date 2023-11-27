@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign Success</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            text-align: center;
+            margin-top: 50px;
+        }
+
+        h1 {
+            color: #4CAF50;
+        }
+
+        button {
+            background-color: #008CBA;
+            color: #fff;
+            padding: 10px 20px;
+            font-size: 16px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #005682;
+        }
+    </style>
+</head>
+<body>
+    <h1>환영합니다 ! 회원가입에 성공하셨습니다!</h1>
+    <p>You have successfully logged in.</p>
+    <button onclick="redirectToBoard()">Go to login</button>
+
+    <script>
+        function redirectToBoard() {
+            // "board/write"로 리다이렉션
+            window.location.href = "/board/write";
+        }
+    </script>
+</body>
+</html>

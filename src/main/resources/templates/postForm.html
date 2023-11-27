@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Post Form</title>
+</head>
+<body>
+    <h1>Create a Post</h1>
+    <form th:action="@{/postForm}" th:object="${post}" method="post">
+        <label for="caption">Caption:</label>
+        <input type="text" id="caption" th:field="*{caption}" required>
+
+        <label for="imageUrl">Image URL:</label>
+        <input type="text" id="imageUrl" th:field="*{imageUrl}" required>
+
+        <button type="submit">Create Post</button>
+    </form>
+</body>
+</html>

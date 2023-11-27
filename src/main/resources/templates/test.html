@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Instagram-like Menu</title>
+
+    <!-- Include your common CSS stylesheets here -->
+    <link href="/style/common.css" rel="stylesheet" type="text/css" />
+    <link href="/style/story.css" rel="stylesheet" type="text/css" />
+    <link href="/style/profile.css" rel="stylesheet" type="text/css" />
+    <link href="/style/update.css" rel="stylesheet" type="text/css" />
+    <link href="/style/upload.css" rel="stylesheet" type="text/css" />
+
+    <!-- Add your custom styles here -->
+    <style>
+        /* Add any styles specific to this combined page */
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            background-color: #ffffff;
+        }
+
+        .logo_instagram img {
+            width: 100px;
+            height: auto;
+        }
+
+        .input-search {
+            /* Add your styles for search input */
+        }
+
+        .nav-2 a {
+            /* Add your styles for navigation links */
+        }
+
+        .pic img {
+            /* Add your styles for user profile image */
+        }
+
+        /* Add any other styles as needed */
+    </style>
+</head>
+<body>
+    <!-- Include your Thymeleaf fragments or content here -->
+    <!-- For example, you can include the 'menu' fragment -->
+    <nav th:replace="fragments/menu :: menu"></nav>
+
+    <!-- Rest of your HTML content -->
+    <div class="navbar">
+        <div class="logo">
+            <img src="/images/Petdabang.jpg" alt="Logo">
+        </div>
+        <div class="menu">
+            <button onclick="location.href='/home'"><img src="/images/home_button1.png" alt="Home"></button>
+            <!-- Add other buttons as needed -->
+        </div>
+    </div>
+
+    <!-- Include your Thymeleaf footer or other fragments as needed -->
+    <footer th:replace="fragments/footer :: footer"></footer>
+</body>
+</html>

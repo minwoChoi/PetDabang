@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Instagram Style</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #fafafa;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            height: 100vh;
+        }
+
+        #header {
+            width: 100%;
+            padding: 20px;
+            background-color: #fff;
+            border-bottom: 1px solid #ddd;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        #logo {
+            width: 120px;
+            height: 40px;
+            object-fit: contain;
+        }
+
+        #nav {
+            display: flex;
+            gap: 20px;
+        }
+
+        #nav a {
+            text-decoration: none;
+            color: #333;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+        }
+
+        .button-icon {
+            width: 20px;
+            height: 20px;
+            margin-right: 5px;
+        }
+
+        #form {
+            margin-top: 50px;
+        }
+
+        #text {
+            font-size: 14px;
+            color: #808080;
+            margin-top: 20px;
+        }
+
+        .post {
+            margin-top: 20px;
+            border: 1px solid #ddd;
+            padding: 10px;
+            width: 300px;
+        }
+
+        #main-content {
+            margin-top: 20px;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        iframe {
+            margin: 50px auto 0; 
+            display: block;
+            
+        }
+    </style>
+</head>
+<body>
+    <div id="header">
+        <img id="logo" src="/images/Petdabang.jpg" alt="Logo">
+        <div id="nav">
+            <a href="/home">
+                <img class="button-icon" src="/images/home_button1.png" alt="Home">
+                Home
+            </a>
+            <a href="/search">
+                <img class="button-icon" src="/images/search_button1.png" alt="Search">
+                Search
+            </a>
+            <a href="/hospital">
+                <img class="button-icon" src="/images/hospital_button1.png" alt="Hospital">
+                Hospital
+            </a>
+            <a href="/item">
+                <img class="button-icon" src="/images/item_button1.png" alt="Item">
+                Item
+            </a>
+            <a href="/profile">
+                <img class="button-icon" src="/images/profile_button1.png" alt="Profile">
+                Profile
+            </a>
+            <a href="/logout">
+                <img class="button-icon" src="/images/logout_button1.png" alt="Logout">
+                Logout
+            </a>
+        </div>
+    </div>
+
+    <div id="form">
+        <p id="text">반려동물의 사진과 동영상을 보려면 가입하세요.</p>
+    </div>
+
+    <!-- 게시물 작성 버튼 추가 -->
+    <div id="addPostButton">
+        <a th:href="@{/board/page}">
+            <button>게시물 작성</button>
+        </a>
+    </div>
+
+    <div id="main-content">
+        <!-- 데이터베이스에서 가져온 게시물 목록 -->
+        <div th:each="post : ${posts}" class="post">
+            <p th:text="${post.content}"></p>
+            <img th:src="@{'data:image/png;base64,' + #strings.bytes(post.image)}" alt="게시물 이미지" width="100%" />
+        </div>
+    </div>
+
+    <iframe src="https://www.google.com/maps/embed?pb=!1m16!1m12!1m3!1d25833.041046781756!2d126.70309981644115!3d35.96824385932084!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!2m1!1z6rWw7IKw64-Z66y867OR7JuQ!5e0!3m2!1sko!2skr!4v1701091666259!5m2!1sko!2skr" width="800" height="650" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+
+</body>
+</html>

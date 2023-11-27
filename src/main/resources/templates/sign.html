@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>회원가입</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #ffffff;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+        }
+
+        #container {
+            background-color: #ffffff;
+            border: 1px solid #dddddd;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 300px;
+            text-align: center;
+        }
+
+        input, button, textarea {
+            margin: 10px 0;
+            width: 100%;
+            padding: 10px;
+            box-sizing: border-box;
+            border: 1px solid #dddddd;
+            border-radius: 5px;
+        }
+
+        button {
+            background-color: #ff3533;
+            color: #ffffff;
+            cursor: pointer;
+            border: none;
+            border-radius: 5px;
+            padding: 10px;
+        }
+
+        button:hover {
+            background-color: #d32f2e;
+        }
+
+        .or-text {
+            margin: 10px 0;
+            font-size: 14px;
+            color: #888888;
+        }
+
+        .image-container {
+            margin-bottom: 20px;
+        }
+
+        img {
+            width: 80%;
+            height: auto;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+
+    <div id="container">
+        <div class="image-container">
+            <img src="/images/title.png" alt="Title Image">
+        </div>
+        <p>반려동물의 사진과 동영상을 보려면 가입하세요.</p>
+        <a href="#">로그인 화면으로 돌아가기</a>
+        <p class="or-text">또는</p>
+        
+        <!-- form 태그 추가 -->
+        <form action="/board/write/signpro" method="post" onsubmit="return validateSignupForm()">
+            <input id="userId" name="ID" type="number" placeholder="아이디">
+            <input id="fullName" name="NAME" type="text" placeholder="성명">
+            <input id="username" name="USERNAME" type="text" placeholder="사용자 이름">
+            <input id="password" name="PW" type="password" placeholder="비밀번호">
+            <button type="submit" id="signupButton">회원가입</button>
+        </form>
+    </div>
+
+    <script>
+        function submitForm() {
+            // form 요소 가져오기
+            var form = document.getElementById("signupForm");
+            
+            // form 전송
+            form.submit();
+        }
+    </script>
+
+</body>
+</html>

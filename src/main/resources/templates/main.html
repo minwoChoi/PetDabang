@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Instagram Style</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #fafafa;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        #header {
+            width: 100%;
+            padding: 20px;
+            background-color: #fff;
+            border-bottom: 1px solid #ddd;
+            display: flex;
+            justify-content: space-between;
+            position: fixed;
+            top: 0;
+            z-index: 1000;
+        }
+
+        #logo {
+            width: 120px;
+            height: 40px;
+            object-fit: contain;
+        }
+
+        #nav {
+            display: flex;
+            gap: 20px;
+        }
+
+        #nav a {
+            text-decoration: none;
+            color: #333;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+        }
+
+        .button-icon {
+            width: 20px;
+            height: 20px;
+            margin-right: 5px;
+        }
+
+        #main-content {
+            margin-top: 80px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            max-width: 800px;
+            width: 100%;
+        }
+
+        #addPostForm {
+            width: 100%;
+            max-width: 600px;
+            padding: 20px;
+            background-color: #fff;
+            border: 1px solid #ddd;
+            margin-bottom: 20px;
+        }
+
+        #addPostForm input[type="text"],
+        #addPostForm input[type="file"],
+        #addPostForm button {
+            width: 100%;
+            margin-bottom: 10px;
+            padding: 10px;
+            box-sizing: border-box;
+        }
+
+        #addPostForm input[type="text"] {
+            width: 100%;
+            margin-bottom: 10px;
+            padding: 15px; /* 수정된 부분: 높이를 조절할 수 있습니다. */
+            box-sizing: border-box;
+            height: 300px;
+        }
+
+        #addPostForm button {
+            background-color: #3897f0;
+            color: #fff;
+            border: none;
+            cursor: pointer;
+        }
+
+        #imagePreview {
+            max-width: 100%;
+            margin-top: 10px;
+            display: none;
+        }
+
+        .post {
+            width: 100%;
+            max-width: 600px;
+            border: 1px solid #ddd;
+            margin-bottom: 20px;
+            background-color: #fff;
+        }
+
+        .post img {
+            width: 100%;
+        }
+
+        .post-content {
+            padding: 10px;
+        }
+    </style>
+</head>
+<body>
+<div id="header">
+    <img id="logo" src="/images/Petdabang.jpg" alt="Logo">
+    <div id="nav">
+        <a href="/home">
+            <img class="button-icon" src="/images/home_button1.png" alt="Home">
+            Home
+        </a>
+        <a href="/search">
+            <img class="button-icon" src="/images/search_button1.png" alt="Search">
+            Search
+        </a>
+        <a href="/hospital">
+            <img class="button-icon" src="/images/hospital_button1.png" alt="Hospital">
+            Hospital
+        </a>
+        <a href="/item">
+            <img class="button-icon" src="/images/item_button1.png" alt="Item">
+            Item
+        </a>
+        <a href="/profile">
+            <img class="button-icon" src="/images/profile_button1.png" alt="Profile">
+            Profile
+        </a>
+        <a href="/logout">
+            <img class="button-icon" src="/images/logout_button1.png" alt="Logout">
+            Logout
+        </a>
+    </div>
+</div>
+
+<div id="main-content">
+    <form th:action="@{/api/posts/add}" method="post" id="addPostForm" enctype="multipart/form-data">
+        <input type="text" name="content" placeholder="게시물 내용">
+        <input type="file" name="imageFile" accept="image/*" onchange="previewImage(this)">
+        <img id="imagePreview" alt="Image Preview">
+        <button type="submit" onclick="redirectToMain()">게시물 올리기</button>
+    </form>
+
+    <!-- 게시물 올리기 시 전달된 데이터 출력 -->
+    <div>
+        <p th:text="${content}"></p>
+        <p th:text="${username}"></p>
+    </div>
+
+    <!-- 기존 게시물 목록 출력 -->
+    <div th:each="post : ${posts}" class="post">
+        <img th:src="@{'data:image/png;base64,' + #strings.bytes(post.IMAGEURL)}" alt="Post Image">
+        <div class="post-content" th:text="${post.CONTENT}"></div>
+    </div>
+</div>
+
+<script>
+    function previewImage(input) {
+        var imagePreview = document.getElementById("imagePreview");
+
+        if (input.files && input.files[0]) {
+            var reader = new FileReader();
+
+            reader.onload = function (e) {
+                imagePreview.src = e.target.result;
+                imagePreview.style.display = "block";
+            };
+
+            reader.readAsDataURL(input.files[0]);
+        }
+    }
+
+    function redirectToMain() {
+        window.location.href = "/main";
+    }
+</script>
+</body>
+</html>
