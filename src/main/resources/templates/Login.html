@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>로그인 성공</title>
+    <title>로그인 및 회원가입</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -64,9 +64,12 @@
             padding: 10px;
         }
 
-        .error-message {
-            color: #000000;
-            margin-top: 10px;
+        button:hover {
+            background-color: #45a049;
+        }
+
+        p {
+            font-size: 12px; /* 원하는 크기로 설정하세요 */
         }
     </style>
 </head>
@@ -74,19 +77,44 @@
 
     <div id="container">
         <div class="logo-container">
-            <div class="logo-text">Login Successful </div>
+            <img src="/images/tooth.png" alt="Tooth Image">
+            <div class="logo-text">Disability Dentist Service</div>
         </div>
-        <form>
-            <div class="error-message">환영합니다! 로그인에 성공하셨습니다.</div>
-            <button type="button" onclick="goToProfile()">확인</button>
+
+        <!-- 로그인 폼 -->
+        <form action="/authenticate" method="post" th:object="${user}">
+            <input id="userId" name="id" type="text" placeholder="아이디" required>
+            <input id="password" name="pw" type="password" placeholder="비밀번호" required>
+            <button type="submit" id="loginButton">로그인</button>
         </form>
+
+        <!-- 에러 메시지 표시 -->
+        <p th:if="${error}" th:text="${error}" style="color: red;"></p>
+
+        <!-- 회원가입 폼 -->
+        <form action="/sign" method="get">
+            <button type="submit" id="signupButton">회원가입</button>
+        </form>
+        <p>-아직 회원이 아니신가요?-</p>
     </div>
 
+
     <script>
-        function goToProfile() {
-            window.location.href = "/Profile"; // "/Profile"로 변경
+        function validateLoginForm() {
+            const userId = document.getElementById("userId").value;
+            const password = document.getElementById("password").value;
+    
+            // 간단한 로그인 시뮬레이션 (실제로는 서버에서 처리)
+            if (userId === "PATIENT" && password === "password") {
+                alert("로그인 성공!");
+            } else {
+                alert("아이디 또는 비밀번호가 올바르지 않습니다.");
+            }
+    
+            return false;  // 이 예시에서는 페이지 리로딩을 방지하기 위해 false를 반환
         }
     </script>
-
+    
+    
 </body>
 </html>

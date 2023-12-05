@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>회원가입</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #ffffff;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+        }
+
+        #container {
+            background-color: #ffffff;
+            border: 1px solid #dddddd;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 300px;
+            text-align: center;
+        }
+
+        .logo-container {
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        img {
+            width: 20%;
+            height: auto;
+            border-radius: 5px;
+        }
+
+        .logo-text {
+            font-size: 13px;
+            font-weight: bold;
+            margin-left: 10px;
+        }
+
+        input, button, textarea {
+            margin: 10px 0;
+            width: 100%;
+            padding: 10px;
+            box-sizing: border-box;
+            border: 1px solid #dddddd;
+            border-radius: 5px;
+        }
+
+        button {
+            background-color: #4caf50;
+            color: #ffffff;
+            cursor: pointer;
+            border: none;
+            border-radius: 5px;
+            padding: 10px;
+        }
+
+        button:hover {
+            background-color: #d32f2e;
+        }
+
+        .or-text {
+            margin: 10px 0;
+            font-size: 14px;
+            color: #888888;
+        }
+
+        .checkbox-group {
+            text-align: left;
+            margin-bottom: 10px;
+        }
+
+        .checkbox-label {
+            display: block;
+            margin-bottom: 5px;
+            cursor: pointer;
+        }
+
+        
+        .dynamic-checkbox-group {
+            flex-direction: column;
+            align-items: flex-start;
+            margin-top: 10px;
+        }
+
+        .dynamic-checkbox {
+            margin: 5px 0;
+            display: flex;
+            align-items: center;
+        }
+
+        .checkbox-custom {
+            position: relative;
+            display: inline-block;
+            cursor: pointer;
+            margin-right: 8px;
+        }
+        
+
+        .checkbox-custom input {
+            position: absolute;
+            opacity: 0;
+            cursor: pointer;
+        }
+
+        .checkmark {
+            position: absolute;
+            top: 0;
+            left: 0;
+            height: 18px;
+            width: 18px;
+            background-color: #eee;
+            border-radius: 3px;
+        }
+        
+        .checkbox-custom input:checked + .checkmark {
+            background-color: #ff3533;
+        }
+
+        .checkmark:after {
+            content: "";
+            position: absolute;
+            display: none;
+        }
+
+        .checkbox-custom input:checked + .checkmark:after {
+            display: block;
+        }
+
+        .checkbox-custom .checkmark:after {
+            left: 7px;
+            top: 3px;
+            width: 5px;
+            height: 10px;
+            border: solid white;
+            border-width: 0 3px 3px 0;
+            transform: rotate(45deg);
+        }
+
+        .delete-button {
+            background-color: #d32f2e;
+            color: #ffffff;
+            cursor: pointer;
+            border: none;
+            border-radius: 5px;
+            padding: 5px;
+            margin-left: 5px;
+        }
+
+        /* Adjust the style to place text next to checkboxes */
+        .dynamic-checkbox label {
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+            font-size: 12px;
+            width: 100%;
+        }
+        
+        /* Added margin to the left of the checkbox text */
+        .dynamic-checkbox .checkmark {
+            margin-right: 5px;
+            width: 18px; /* Checkbox 크기를 다시 지정 */
+        }
+        
+        /* 체크박스 텍스트가 나란히 표시되도록 수정 */
+        .dynamic-checkbox .checkbox-custom {
+            display: flex;
+            align-items: center;
+            position: relative; /* 추가된 부분 */
+        }
+        
+        /* 텍스트가 보이지 않는 문제 수정 */
+        .dynamic-checkbox input[type="checkbox"] {
+            margin-right: 5px;
+            cursor: pointer;
+            flex: 0 0 auto; /* 추가된 부분 */
+        }
+        
+        /* 가려진 텍스트가 표시되도록 수정 */
+        .dynamic-checkbox .checkmark {
+            position: relative;
+            z-index: 1; /* 추가된 부분 */
+        }
+        
+        /* 체크박스 텍스트가 텍스트 위에 보이도록 수정 */
+        .dynamic-checkbox input[type="checkbox"]:checked + .checkmark:after {
+            z-index: 1; /* 추가된 부분 */
+        }
+    </style>
+</head>
+<body>
+
+    <div id="container">
+        <div class="logo-container">
+            <img src="/images/tooth.png" alt="Tooth Image">
+            <div class="logo-text">Disability Dentist Service</div>
+        </div>
+        <!-- Modify the form action to point to the correct endpoint -->
+        <!-- Modify the form action to point to the correct endpoint -->
+<form action="/register" method="post" onsubmit="return validateSignupForm()">
+    <input id="userId" name="ID" type="text" placeholder="아이디">
+    <input id="email" name="EMAIL" type="email" placeholder="이메일">
+    <input id="password" name="PW" type="password" placeholder="비밀번호">
+    <input id="fullName" name="NAME" type="text" placeholder="성명">
+    <input id="rnn" name="RNN" type="text" placeholder="주민등록번호">
+    <input id="address" name="ADDRESS" type="text" placeholder="주소">
+
+    <!-- Textbox for disability -->
+    <div class="checkbox-group">
+        <label class="checkbox-label">장애</label>
+        <textarea id="disabilityTextbox" name="DISABILITY" rows="4" placeholder="장애를 입력하세요"></textarea>
+        <!-- Dynamic checkbox group for disability types -->
+        <div class="dynamic-checkbox-group" id="disabilityDynamicGroup">
+            <div class="dynamic-checkbox">
+                <label class="checkbox-custom">
+                    <input type="checkbox" id="visualImpairmentCheckbox" class="dynamic-checkbox" value="시각 장애" onclick="updateText('시각 장애')">
+                    <span class="checkmark"></span>
+                    시각
+                </label>
+            </div>
+
+            <div class="dynamic-checkbox">
+                <label class="checkbox-custom">
+                    <input type="checkbox" id="hearingImpairmentCheckbox" class="dynamic-checkbox" value="청각 장애" onclick="updateText('청각 장애')">
+                    <span class="checkmark"></span>
+                    청각
+                </label>
+            </div>
+
+            <div class="dynamic-checkbox">
+                <label class="checkbox-custom">
+                    <input type="checkbox" id="intellectualImpairmentCheckbox" class="dynamic-checkbox" value="지적 장애" onclick="updateText('지적 장애')">
+                    <span class="checkmark"></span>
+                    지적
+                </label>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add any additional fields if needed -->
+    <button type="submit" id="signupButton">회원가입</button>
+</form>
+
+<script>
+    function validateSignupForm() {
+        // Password validation: Replace password input value with its numeric equivalent
+        document.getElementById("password").value = convertPasswordToNumber(document.getElementById("password").value);
+
+        // Email validation: Use a simple regular expression for basic email format
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        const emailInput = document.getElementById("email");
+
+        if (!emailRegex.test(emailInput.value)) {
+            alert("이메일 형식이 올바르지 않습니다.");
+            return false;
+        }
+
+        // Add additional validation logic if needed
+        return true;  // Return true if validation is successful
+    }
+
+    function updateText(value) {
+        const disabilityTextbox = document.getElementById("disabilityTextbox");
+        const currentValue = disabilityTextbox.value;
+        const updatedValue = currentValue.includes(value) ? currentValue.replace(value + "\n", "") : currentValue + value + "\n";
+        disabilityTextbox.value = updatedValue;
+    }
+</script>
+
+</body>
+</html>

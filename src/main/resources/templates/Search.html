@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- head 부분은 여기에 추가 -->
+</head>
+<body>
+    <!-- Header 부분은 생략했습니다. 필요에 따라 추가하세요. -->
+    <div id="searchForm">
+        <input type="text" id="mapSearchText" placeholder="장소를 검색하세요">
+        <button onclick="searchOnMap()">검색</button>
+    </div>
+
+    <div id="mapContainer">
+        <div id="map"></div>
+    </div>
+
+    <div id="searchForm">
+        <select id="searchCriteria" onchange="searchDentists()">
+            <option value="ID">ID</option>
+            <option value="DNAME">Name</option>
+            <option value="DTEL">Telephone</option>
+            <option value="DAYS">Days</option>
+            <option value="DTYPE">Type</option>
+            <option value="DADDRESS">Address</option>
+            <option value="REGION">Region</option>
+        </select>
+
+        <label for="searchText"></label>
+        <input type="text" id="searchText" oninput="searchDentists()" placeholder="Enter search text...">
+
+        <h3>All Dentists</h3>
+        <table border="1" th:if="${allDentists != null and not #lists.isEmpty(allDentists)}">
+            <!-- Table header -->
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Telephone</th>
+                <th>Days</th>
+                <th>Type</th>
+                <th>Address</th>
+                <th>Region</th>
+            </tr>
+
+            <!-- Loop through all dentists or search results and display them in the table -->
+            <tr th:each="dentist : ${allDentists}" id="dentistRow">
+                <td th:text="${dentist.ID}" data-criteria="ID"></td>
+                <td th:text="${dentist.DNAME}" data-criteria="DNAME"></td>
+                <td th:text="${dentist.DTEL}" data-criteria="DTEL"></td>
+                <td th:text="${dentist.DAYS}" data-criteria="DAYS"></td>
+                <td th:text="${dentist.DTYPE}" data-criteria="DTYPE"></td>
+                <td th:text="${dentist.DADDRESS}" data-criteria="DADDRESS"></td>
+                <td th:text="${dentist.REGION}" data-criteria="REGION"></td>
+            </tr>
+        </table>
+
+        <!-- Display message when no dentists are found -->
+        <div th:if="${allDentists != null and #lists.isEmpty(allDentists)}">
+            <p>No dentists found.</p>
+        </div>
+    </div>
+
+    <script>
+        var mapOptions = {
+        center: new naver.maps.LatLng(37.3595704, 127.105399),
+        zoom: 12
+    };
+
+    var map = new naver.maps.Map('map', mapOptions);
+
+    function navigateTo(page) {
+        window.location.href = page;
+    }
+
+    function searchOnMap() {
+        var searchText = document.getElementById('mapSearchText').value;
+
+        // 네이버 지도 검색 API를 사용하여 장소 검색
+        var searchService = new naver.maps.Service({
+            apiKey: 'YOUR_NAVER_MAPS_API_KEY'
+        });
+
+        searchService.search(searchText, function(status, response) {
+            if (status === naver.maps.Service.Status.OK) {
+                var items = response.v2.addresses;
+
+                // 검색 결과가 있는 경우 첫 번째 결과로 이동
+                if (items.length > 0) {
+                    var firstItem = items[0];
+                    var point = new naver.maps.Point(firstItem.x, firstItem.y);
+
+                    map.setCenter(point);
+                    // 추가적인 표시나 이동 등의 로직을 추가할 수 있습니다.
+                } else {
+                    alert('검색 결과가 없습니다.');
+                }
+            } else {
+                alert('검색 중 오류가 발생했습니다.');
+            }
+        });
+    }
+        function searchDentists() {
+            // Get input values
+            var searchText = document.getElementById('searchText').value.toUpperCase();
+            var criteriaSelect = document.getElementById('searchCriteria');
+            var selectedCriteria = criteriaSelect.options[criteriaSelect.selectedIndex].value.toUpperCase();
+
+            // Get table rows
+            var rows = document.getElementsByTagName('tr');
+
+            // Loop through rows and hide those that don't match the search inputs
+            for (var i = 1; i < rows.length; i++) { // Start from 1 to skip the header row
+                var row = rows[i];
+                var cells = row.getElementsByTagName('td');
+                var found = true;  // Assume it's a match until proven otherwise
+
+                // Check if each cell matches the corresponding search input
+                for (var k = 0; k < cells.length; k++) {
+                    var textValue = cells[k].textContent || cells[k].innerText;
+                    if (searchText && selectedCriteria === cells[k].getAttribute('data-criteria') &&
+                        textValue.toUpperCase().indexOf(searchText) === -1) {
+                        found = false;
+                        break;
+                    }
+                }
+
+                // Show or hide the row based on the search results
+                if (found) {
+                    row.style.display = '';
+                } else {
+                    row.style.display = 'none';
+                }
+            }
+        }
+    </script>
+</body>
+</html>

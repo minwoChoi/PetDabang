@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no">
+    <title>장애인 치과 검색</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            font-family: Arial, sans-serif;
+        }
+
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: #4caf50;
+            padding: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            color: #fff;
+        }
+
+        #mapContainer {
+            display: flex;
+            justify-content: center;
+            margin-top: 50px;
+            height: 40vh;
+        }
+
+        #map {
+            width: 80vw;
+            height: 100%;
+            margin-bottom: 50px;
+        }
+
+        #searchForm {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            background-color: #fff;
+        }
+
+        input {
+            width: 80%;
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        button {
+            width: 80%;
+            padding: 10px;
+            background-color: #4caf50;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-bottom: 10px;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        #logoContainer {
+            display: flex;
+            align-items: center;
+        }
+
+        #logo {
+            width: 40px;
+            height: 40px;
+            margin-right: 10px;
+        }
+
+        #logoText {
+            font-size: 20px;
+            font-weight: bold;
+            color: #000;
+        }
+
+        #headerButtons {
+            display: flex;
+        }
+
+        #headerButtons button {
+            background: none;
+            border: none;
+            margin-right: 10px;
+            cursor: pointer;
+        }
+
+        #headerButtons button img {
+            width: 30px;
+            height: 30px;
+        }
+
+        #profileContainer {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            background-color: #fff;
+            margin: 20px auto;
+            width: 80%; /* Adjusted width for better responsiveness */
+            max-width: 400px; /* Added max-width for better responsiveness */
+            border-radius: 10px; /* Added border-radius for a rounded appearance */
+        }
+
+        #profileContainer h1 {
+            color: #4caf50;
+            margin-bottom: 20px;
+            font-size: 24px; /* Increased font size for better readability */
+        }
+
+        #profileContainer div {
+            text-align: left;
+            margin-bottom: 15px; /* Reduced margin for better spacing */
+            line-height: 1.6; /* Adjusted line height for better readability */
+        }
+
+        #profileContainer strong {
+            margin-right: 5px; /* Reduced margin for better spacing */
+            color: #555; /* Adjusted color for a subtle look */
+        }
+
+        #reservationButton {
+            width: 80%; /* Adjusted width for better appearance */
+            padding: 12px; /* Adjusted padding for better appearance */
+            background-color: #4caf50;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 20px; /* Added margin-top for better spacing */
+        }
+
+        #reservationButton:hover {
+            background-color: #45a049;
+        }
+    </style>
+    <script type="text/javascript" src="https://openapi.map.naver.com/openapi/v3/maps.js?ncpClientId=m20lcvtpdj"></script>
+</head>
+<body>
+    <header>
+        <div id="logoContainer">
+            <img id="logo" src="/images/tooth.png" alt="로고 아이콘">
+            <div id="logoText">Disability Dentist Service</div>
+        </div>
+        <div id="headerButtons">
+            <button onclick="navigateTo('/')"><img src="/images/search_button1.png" alt="검색 아이콘"></button>
+            <button onclick="navigateTo('/Profile')"><img src="/images/profile.png" alt="프로필 아이콘" onclick="navigateTo('/profile-page.html')"></button>
+            <button onclick="navigateTo('/Reservation')">
+                <img src="/images/reserve.png" alt="예약 아이콘">
+            </button>
+            <button onclick="navigateTo('/Login')"><img src="/images/logout_button1.png" alt="로그아웃 아이콘"></button>
+        </div>
+    </header>
+
+    <div id="profileContainer">
+        <h1>프로필</h1>
+        <div>
+            <strong>ID:</strong> <span th:text="${#strings.escapeXml(member.ID)}"></span><br>
+            <strong>Email:</strong> <span th:text="${#strings.escapeXml(member.EMAIL)}"></span><br>
+            <strong>Name:</strong> <span th:text="${#strings.escapeXml(member.NAME)}"></span><br>
+            <strong>RNN:</strong> <span th:text="${#strings.escapeXml(member.RNN)}"></span><br>
+            <strong>Address:</strong> <span th:text="${#strings.escapeXml(member.ADDRESS)}"></span><br>
+            <strong>Disability:</strong> <span th:text="${#strings.escapeXml(member.DISABILITY)}"></span><br>
+        </div>
+        <button id="reservationButton" onclick="navigateTo('/List')">예약 조회</button>
+    </div>
+
+    
+    <script>
+        // 페이지 이동 함수
+        function navigateTo(page) {
+            window.location.href = page;
+        }
+        function navigateToReservation() {
+            // JavaScript를 사용하여 정보 가져오기
+            var patientId = document.querySelector('#profileContainer span:nth-child(1)').textContent.trim();
+            var patientName = document.querySelector('#profileContainer span:nth-child(3)').textContent.trim();
+    
+            // URL에 매개변수를 추가하여 예약 페이지로 이동
+            navigateTo('/Reservation?patientId=' + encodeURIComponent(patientId) + '&patientName=' + encodeURIComponent(patientName));
+        }
+    </script>
+</body>
+</html>

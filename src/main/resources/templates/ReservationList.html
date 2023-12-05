@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title>예약 정보</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+        }
+
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: #4caf50;
+            padding: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            color: #fff;
+        }
+
+        #logoContainer {
+            display: flex;
+            align-items: center;
+        }
+
+        #logo {
+            width: 40px;
+            height: 40px;
+            margin-right: 10px;
+        }
+
+        #logoText {
+            font-size: 20px;
+            font-weight: bold;
+            color: #000;
+        }
+
+        #headerButtons {
+            display: flex;
+            align-items: center;
+        }
+
+        #headerButtons button {
+            background: none;
+            border: none;
+            margin-right: 10px;
+            cursor: pointer;
+        }
+
+        #headerButtons button img {
+            width: 30px;
+            height: 30px;
+        }
+
+        h2 {
+            text-align: center;
+            color: #4caf50;
+            margin-top: 20px;
+        }
+
+        table {
+            width: 80%;
+            margin: 20px auto;
+            border-collapse: collapse;
+            background-color: #fff;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        th, td {
+            padding: 15px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+
+        th {
+            background-color: #4caf50;
+            color: #fff;
+        }
+
+        tr {
+            transition: background-color 0.3s;
+        }
+
+        tr:hover {
+            background-color: #f5f5f5;
+        }
+
+        script {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div id="logoContainer">
+            <img id="logo" src="/images/tooth.png" alt="로고 아이콘">
+            <div id="logoText">Disability Dentist Service</div>
+        </div>
+        <div id="headerButtons">
+            <button onclick="navigateTo('/')"><img src="/images/search_button1.png" alt="검색 아이콘"></button>
+            <button onclick="navigateTo('/Profile')"><img src="/images/profile.png" alt="프로필 아이콘" onclick="navigateTo('/profile-page.html')"></button>
+            <button onclick="navigateTo('/Reservation')">
+                <img src="/images/reserve.png" alt="예약 아이콘">
+            </button>
+            <button onclick="navigateTo('/Login')"><img src="/images/logout_button1.png" alt="로그아웃 아이콘"></button>
+        </div>
+    </header>
+
+    <h2>예약 정보</h2>
+    <table border="1">
+        <tr>
+            <th>Patient ID</th>
+            <th>Patient Name</th>
+            <th>Dentist ID</th>
+            <th>Dentist Name</th>
+            <th>Reservation Date</th>
+            <th>Disability</th>
+        </tr>
+        <tr th:each="reservation : ${reservations}">
+            <td th:text="${reservation.patientId}"></td>
+            <td th:text="${reservation.patientName}"></td>
+            <td th:text="${reservation.dentistId}"></td>
+            <td th:text="${reservation.dentistName}"></td>
+            <td th:text="${#temporals.format(reservation.rDate, 'yyyy-MM-dd HH:mm')}"></td>
+            <td th:text="${reservation.DISABILITY}"></td> 
+        </tr>
+    </table>
+
+    <script>
+        function navigateTo(page) {
+            window.location.href = page;
+        }
+    </script>
+</body>
+</html>
